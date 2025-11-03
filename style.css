@@ -1,0 +1,186 @@
+body {
+  background: #13141A;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #f1f1f1;
+  margin: 0;
+  padding: 15px 0;
+}
+
+/* Opcional: centralizar horizontalmente */
+body > .painel {
+  margin: 0 auto 15px auto;
+}
+
+body > .painel2 {
+  margin: 0 auto 15px auto;
+}
+
+.painel {
+  background: #272A33;
+  border-radius: 5px;
+  padding: 10px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+
+.painel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.painel-titulo {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1e1f25;
+  transition: .4s;
+  border-radius: 22px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #235aff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+/* Inputs */
+.painel-body {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.painel-body label {
+  font-size: 0.9em;
+  margin: 5px 0 2px;
+}
+
+.painel-body input {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background: #1e1f25;
+  color: #fff;
+  margin-bottom: 10px;
+  transition: background 0.3s;
+}
+
+.painel-body input:focus {
+  background: #606060;
+  outline: none;
+}
+/* botões */
+/* Container dos Botões */
+.painel-botoes {
+  display: flex; /* Alinha os botões lado a lado */
+  justify-content: space-between; /* Espaça os botões uniformemente */
+  gap: 5px; /* Espaço entre os botões */
+  padding: 0 0px; 
+}
+
+/* Estilo do Botão Individual */
+.botao-salvo {
+  /* Estilo base */
+  width: 30px; 
+  min-width: 30px; /* Garante que o botão não encolha demais */
+  height: 30px; 
+  line-height: 30px; /* Centraliza o texto verticalmente */
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #fff;
+  
+  background-color: #3C404D; /* Cor azul escuro semelhante à imagem */
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  padding: 0;
+  flex-grow: 1; /* Permite que os botões preencham o espaço */
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* Estado Ativo/Selecionado (para feedback visual) */
+.botao-salvo.ativo {
+  background-color: #235aff; /* Cor azul mais viva */
+  box-shadow: 0 0 5px rgba(35, 90, 255, 0.7);
+}
+
+/* Efeito Hover/Foco (para interação) */
+.botao-salvo:hover,
+.botao-salvo:focus {
+  background-color: #3f5581; /* Um azul um pouco mais claro no hover */
+  outline: none;
+}
+
+textarea {
+  padding: 10px;
+  width: 278px; 
+  line-height: 1.5;
+  border-radius: 5px;
+  background-color: #1e1f25;
+  color: #f1f1f1;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  resize: vertical;
+  margin-top: 5px;
+}
+
+/* Barra de rolagem personalizada */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #235aff #1a1b22;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background: #1a1b22;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #235aff;
+  border-radius: 8px;
+  border: 2px solid #1a1b22;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #3c404d;
+}

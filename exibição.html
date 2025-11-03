@@ -1,0 +1,291 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<div class="revela-barra" id="revelaBarra">
+  <img src="./Imagens/Imagem2.png" class="barra-inferior">
+</div>
+
+<div id="qr-container">
+  <img id="qr-img" class="qrcode-style">
+  <div id="qr-desc"></div>
+</div>
+
+<div id="lowerthird-container">
+  <img src="./Imagens/lowerthird.png" style="width:100%; display:block;">
+</div>
+
+<div id="lowerthird-text">
+  <span id="lowerthird-nome"></span>
+  <span id="lowerthird-info"></span>
+</div>
+
+<style>
+
+  #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:40%;
+  }
+
+  body.semanadeoracao #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:48%;
+  }
+
+  body.padrao #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:50%;
+  }
+
+  body.padrao #lowerthird-nome{
+    position:absolute; 
+    left:310px; 
+    bottom:150px; 
+    color:#ffffff; 
+    font-size:70px; 
+    font-family:'TemporaBoldItalic', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.padrao #lowerthird-info{
+    position:absolute; 
+    left:310px; 
+    bottom:90px; 
+    color:#ffffff; 
+    font-size: 40px; 
+    font-family:'TemporaRegular', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+
+  body.novosentido #lowerthird-nome{
+    position:absolute; 
+    left:290px; 
+    bottom:140px; 
+    color:#fff; 
+    font-size:50px; 
+    font-family:'Montserrat', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.novosentido #lowerthird-info{
+    position:absolute; 
+    left:290px; 
+    bottom:74px; 
+    color:#000000; 
+    font-size: 40px; 
+    font-family:'Montserrat', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+    body.semanadeoracao #lowerthird-nome{
+    position:absolute; 
+    left:115px; 
+    bottom:130px; 
+    color:#fff; 
+    font-size:45px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.semanadeoracao #lowerthird-info{
+    position:absolute; 
+    left:115px; 
+    bottom:77px; 
+    color:#563E23; 
+    font-size: 30px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight: medium;
+  }
+  
+  /* Estilo para o Instagram */
+  .revela-barra {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+  }
+
+  .revela-barra.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .barra-inferior {
+    display: block;
+    height: 100%;
+  }
+
+  .animar-mostrar {
+    animation: revelar-barra 1s ease-out forwards;
+    display: flex !important;
+  }
+  .animar-esconder {
+    animation: esconder-barra 1s ease-out forwards;
+    display: flex !important;
+  }
+
+  @keyframes revelar-barra {
+    from { width: 0; }
+    to { width: 600px; }
+  }
+  @keyframes esconder-barra {
+    from { width: 600px; }
+    to { width: 0; }
+  }
+
+  /* Estilo para o QR code */
+  .qrcode-style {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    position: absolute;
+    left: 32px;
+    bottom: 5px;
+  }
+
+  #qr-container {
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+    background: url('./Imagens/qrcodestyle.png') center center no-repeat;
+    background-size: cover; /* ou 'contain' se preferir */
+    width: 430px;   /* igual à largura do QR */
+    height: 160px;  /* igual à altura do QR */
+    position: absolute;
+    bottom: 70px;
+    left: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #qr-container.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #qr-desc {
+    color: #fff;           
+    font-size: 1.4em;      
+    font-weight: bold;     
+    text-align: center;    
+    margin-top: 8px;       
+    font-family: 'Montserrat', Arial, sans-serif; /* Fonte personalizada */
+    left: 200px;
+  }
+
+  body.padrao, body.padrao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  body.novosentido, body.novosentido * {
+    font-family: 'Beiruti', Arial, sans-serif;
+  }
+
+  body.semanadeoracao, body.semanadeoracao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  @font-face {
+  font-family: 'TemporaBoldItalic';
+  src: url('./fontes/TemporaLGCUni-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;}
+
+  @font-face {
+    font-family: 'TemporaRegular';
+    src: url('./fontes/TemporaLGCUni-Regular.ttf') format('truetype');
+  }
+
+  
+
+
+</style>
+
+<script>
+  // Cria o canal de broadcast
+  const canal = new BroadcastChannel('painel_exibicao');
+
+  function mostrarBarra() {
+    const barra = document.getElementById('revelaBarra');
+    barra.classList.add('mostrar');
+  }
+
+  function esconderBarra() {
+    const barra = document.getElementById('revelaBarra');
+    barra.classList.remove('mostrar');
+  }
+
+  // QR code dinâmico
+  const qrContainer = document.getElementById('qr-container');
+  const qrImg = document.getElementById('qr-img');
+  const qrDesc = document.getElementById('qr-desc');
+  const lowerthird = document.getElementById('lowerthird-container');
+  const lowerthirdImg = lowerthird.querySelector('img');
+  const lowerthirdNome = document.getElementById('lowerthird-nome');
+  const lowerthirdInfo = document.getElementById('lowerthird-info');
+
+  canal.onmessage = function(event) {
+    if (event.data.acao === 'mostrarBarra') {
+      mostrarBarra();
+    }
+    if (event.data.acao === 'esconderBarra') {
+      esconderBarra();
+    }
+    if (event.data.acao === 'atualizarQR') {
+      if (event.data.imagem) {
+        qrImg.src = event.data.imagem;
+        qrImg.style.display = 'block';
+      }
+      if (event.data.descricao !== undefined) {
+        qrDesc.textContent = event.data.descricao;
+      }
+    }
+    if (event.data.acao === 'mostrarQR') {
+      qrContainer.classList.add('mostrar');
+    }
+    if (event.data.acao === 'esconderQR') {
+      qrContainer.classList.remove('mostrar');
+    }
+    if (event.data.acao === 'mostrarLowerthird') {
+      lowerthird.style.opacity = 1;
+      lowerthirdNome.textContent = event.data.nome || '';
+      lowerthirdInfo.textContent = event.data.info || '';
+    }
+    if (event.data.acao === 'esconderLowerthird') {
+      lowerthird.style.opacity = 0;
+      lowerthirdNome.textContent = '';
+      lowerthirdInfo.textContent = '';
+    }
+    if (event.data.acao === 'alterarTema') {
+      document.body.className = event.data.tema;
+      // Troca a imagem do lower third conforme o tema
+      if (event.data.tema === 'padrao') {
+        lowerthirdImg.src = './Imagens/lowerthird0.png';
+      } else if (event.data.tema === 'novosentido') {
+        lowerthirdImg.src = './Imagens/lowerthird1.png';
+      } else if (event.data.tema === 'semanadeoracao') {
+        lowerthirdImg.src = './Imagens/lowerthird2.png';
+      }
+    }
+  };
+</script>
