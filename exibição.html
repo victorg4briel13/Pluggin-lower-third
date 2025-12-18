@@ -23,6 +23,11 @@
   <span id="lowerthird-info"></span>
 </div>
 
+
+<!-- Vídeo de teste GC (ativado pelo switch de teste no painel) - agora em tela cheia -->
+<div id="video-testegc-container" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity:0; transition:opacity .3s; z-index:0; background:transparent;">
+  <video id="teste-gc-video" src="./animacoes/teste gc.webm" style="width:100%; height:100%; object-fit:cover; display:block;" preload="auto"></video>
+</div>
 <style>
 
   #lowerthird-container {
@@ -108,6 +113,36 @@
     left:115px; 
     bottom:77px; 
     color:#563E23; 
+    font-size: 30px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+    body.teste #lowerthird-container {
+    opacity: 1;
+    transition: opacity 0.3s;
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  body.teste #lowerthird-nome{
+    position:absolute; 
+    left:115px; 
+    bottom:130px; 
+    color:#fff; 
+    font-size:45px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.teste #lowerthird-info{
+    position:absolute; 
+    left:115px; 
+    bottom:77px; 
+    color:#ffffff; 
     font-size: 30px; 
     font-family:'Inter', Arial, sans-serif; 
     font-weight: medium;
@@ -207,6 +242,36 @@
 
   body.semanadeoracao, body.semanadeoracao * {
     font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  /* Estilos específicos para o tema 'teste' */
+  body.teste, body.teste * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+
+
+  /* Garante que elementos de overlay fiquem acima do vídeo */
+  #lowerthird-container, #lowerthird-text, #qr-container, .revela-barra {
+    z-index: 10;
+  }
+
+  /* Força o texto do lowerthird ficar em cima do vídeo */
+  #lowerthird-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  #lowerthird-text #lowerthird-nome,
+  #lowerthird-text #lowerthird-info {
+    z-index: 21;
+    position: absolute;
+    pointer-events: none;
   }
 
   @font-face {

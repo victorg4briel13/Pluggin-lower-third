@@ -60,6 +60,12 @@
         info: info.value
       });
 
+      // também aciona o vídeo de teste via ação 'test' somente se o tema 'teste' estiver ativo
+      const temaAtivo = document.getElementById('tema-select');
+      if (temaAtivo && temaAtivo.value === 'teste') {
+        canal.postMessage({ acao: 'test', ligado: true });
+      }
+
       // limpa timer anterior (evita múltiplos)
       if (sentidoAutoOffTimer) {
         clearTimeout(sentidoAutoOffTimer);
@@ -67,6 +73,8 @@
       sentidoAutoOffTimer = setTimeout(() => {
         sentidoSwitch.checked = false;
         canal.postMessage({ acao: 'esconderLowerthird' });
+        // garante que o vídeo também seja desligado no auto-off
+        canal.postMessage({ acao: 'test', ligado: false });
         sentidoAutoOffTimer = null;
       }, 8000); // 8000 ms = 8 segundos
 
@@ -77,6 +85,8 @@
         sentidoAutoOffTimer = null;
       }
       canal.postMessage({ acao: 'esconderLowerthird' });
+      // envia também para desligar o vídeo quando o switch de transmissão for desligado
+      canal.postMessage({ acao: 'test', ligado: false });
     }
   });
 
@@ -90,6 +100,7 @@
       });
     }
   });
+
   info.addEventListener('input', function() {
     if (sentidoSwitch.checked) {
       canal.postMessage({
@@ -104,6 +115,14 @@
   temaSelect.addEventListener('change', function() {
     canal.postMessage({ acao: 'alterarTema', tema: temaSelect.value });
   });
+
+  // Switch de teste: envia ação 'test' com estado ligado (true/false)
+  const testSwitch = document.getElementById('painel-switchteste');
+  if (testSwitch) {
+    testSwitch.addEventListener('change', function() {
+      canal.postMessage({ acao: 'test', ligado: testSwitch.checked });
+    });
+  }
 
   // --- Gerenciamento simples de "variáveis" por botão (1..8) ---
   // Cada slot guarda { nome, info } em memória e também em localStorage (para persistir entre sessões).
