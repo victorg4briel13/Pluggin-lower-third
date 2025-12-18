@@ -45,9 +45,9 @@
   });
   */
 
-  const sentidoSwitch = document.getElementById('painel-switch2');
-  const nome2 = document.getElementById('nome2');
-  const info2 = document.getElementById('info2');
+  const sentidoSwitch = document.getElementById('painel-switchlowerthird');
+  const nome = document.getElementById('nome');
+  const info = document.getElementById('info');
 
   // Desliga automático após 8 segundos quando ativado
   let sentidoAutoOffTimer = null;
@@ -56,8 +56,8 @@
     if (sentidoSwitch.checked) {
       canal.postMessage({
         acao: 'mostrarLowerthird',
-        nome: nome2.value,
-        info: info2.value
+        nome: nome.value,
+        info: info.value
       });
 
       // limpa timer anterior (evita múltiplos)
@@ -81,21 +81,21 @@
   });
 
   // Se quiser atualizar em tempo real ao digitar:
-  nome2.addEventListener('input', function() {
+  nome.addEventListener('input', function() {
     if (sentidoSwitch.checked) {
       canal.postMessage({
         acao: 'mostrarLowerthird',
-        nome: nome2.value,
-        info: info2.value
+        nome: nome.value,
+        info: info.value
       });
     }
   });
-  info2.addEventListener('input', function() {
+  info.addEventListener('input', function() {
     if (sentidoSwitch.checked) {
       canal.postMessage({
         acao: 'mostrarLowerthird',
-        nome: nome2.value,
-        info: info2.value
+        nome: nome.value,
+        info: info.value
       });
     }
   });
@@ -130,8 +130,8 @@
     // atualiza classe visual
     botaoSlots.forEach(b => b.classList.toggle('ativo', b.getAttribute('data-slot') === activeSlot));
     // carregar valores da "variável" para os campos
-    nome2.value = slots[activeSlot].nome || '';
-    info2.value = slots[activeSlot].info || '';
+    nome.value = slots[activeSlot].nome || '';
+    info.value = slots[activeSlot].info || '';
     // persistir qual slot está ativo
     localStorage.setItem('active_slot', activeSlot);
     // atualizar tooltips (caso tenham mudado)
@@ -149,8 +149,8 @@
   // atualiza a variável do slot ativo sempre que os campos forem editados
   function updateActiveSlotFromFields() {
     if (!activeSlot) return;
-    slots[activeSlot].nome = nome2.value;
-    slots[activeSlot].info = info2.value;
+    slots[activeSlot].nome = nome.value;
+    slots[activeSlot].info = info.value;
     // salva no localStorage para persistência
     localStorage.setItem(`slot_${activeSlot}`, JSON.stringify(slots[activeSlot]));
     // atualizar tooltip do botão ativo
@@ -158,8 +158,8 @@
     if (btn) btn.title = slots[activeSlot].nome ? slots[activeSlot].nome : 'Vazio';
   }
 
-  nome2.addEventListener('input', updateActiveSlotFromFields);
-  info2.addEventListener('input', updateActiveSlotFromFields);
+  nome.addEventListener('input', updateActiveSlotFromFields);
+  info.addEventListener('input', updateActiveSlotFromFields);
 
   // ao carregar a página, atualiza títulos e reaplica o slot ativo salvo (se houver)
   updateButtonTitles();
