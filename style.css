@@ -7,12 +7,32 @@ body {
 }
 
 /* Opcional: centralizar horizontalmente */
-body > .painel {
+body > .painel{
+  margin: 0 auto 15px auto;
+}
+
+body > .cabecalho{
+  margin: 0 auto 15px auto;
+}
+
+body > .painel-tema{
+  margin: 0 auto 0 auto;
+}
+
+body > .botao-config{
   margin: 0 auto 15px auto;
 }
 
 body > .painel2 {
   margin: 0 auto 15px auto;
+}
+
+.cabecalho {
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 320px;
 }
 
 .painel {
@@ -23,6 +43,39 @@ body > .painel2 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
+.painel-tema {
+  background: #272A33;
+  border-radius: 5px;
+  padding: 10px;
+  width: auto;
+  flex: 1 1 auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.painel-config {
+  background: #272A33;
+  border-radius: 5px;
+  padding: 10px;
+  width: 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Botão de configuração (link) no cabeçalho */
+.botao-config a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #272A33;
+  border-radius: 5px;
+  color: #f1f1f1;
+  text-decoration: none; /* remove underline */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.botao-config a:hover {
+  background: #30343c;
+}
 
 .painel-header {
   display: flex;
@@ -91,6 +144,27 @@ input:checked + .slider:before {
 .painel-body label {
   font-size: 0.9em;
   margin: 5px 0 2px;
+}
+
+/* Layout das linhas de cor: label ao lado do color picker */
+.color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.color-row label {
+  width: 140px;
+  margin: 0;
+  font-size: 0.95em;
+}
+.painel-body input[type="color"] {
+  width: 44px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
 }
 
 .painel-body input {

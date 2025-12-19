@@ -186,3 +186,68 @@
   if (persistedActive && slots[persistedActive]) {
     setActiveButton(persistedActive);
   }
+
+// --- Seção: seleção de cores (apenas se a página de configuração existir) ---
+try {
+  const corPrincipal = document.getElementById('cor_principal');
+  const texto1 = document.getElementById('texto1');
+  const corSecundaria = document.getElementById('cor_secundaria');
+  const texto2 = document.getElementById('texto2');
+  const btnAplicar = document.getElementById('btn-aplicar');
+  const btnSalvarCores = document.getElementById('btn-salvar-cores');
+  const previewTitle = document.getElementById('preview-title');
+  const previewSub = document.getElementById('preview-sub');
+
+  function buildColors() {
+    return {
+      cor_principal: corPrincipal ? corPrincipal.value : null,
+      texto1: texto1 ? texto1.value : null,
+      cor_secundaria: corSecundaria ? corSecundaria.value : null,
+      texto2: texto2 ? texto2.value : null
+    };
+  }
+
+  function applyPreview(colors) {
+    if (!colors) return;
+    if (previewTitle) previewTitle.style.color = colors.texto1 || '';
+    if (previewSub) previewSub.style.color = colors.texto2 || '';
+    const box = document.getElementById('preview-box');
+    if (box) box.style.background = colors.cor_secundaria || '';
+    const wrapper = document.getElementById('preview-cores');
+    if (wrapper) wrapper.style.border = `2px solid ${colors.cor_principal || 'transparent'}`;
+  }
+
+  function sendColors() {
+    const colors = buildColors();
+    try { canal.postMessage({ acao: 'colors', colors }); } catch (e) {}
+    try { localStorage.setItem('lt_colors', JSON.stringify(colors)); } catch (e) {}
+  }
+
+  // eventos
+  [corPrincipal, texto1, corSecundaria, texto2].forEach(el => {
+    if (!el) return;
+    el.addEventListener('input', () => applyPreview(buildColors()));
+  });
+
+  if (btnAplicar) btnAplicar.addEventListener('click', sendColors);
+  if (btnSalvarCores) btnSalvarCores.addEventListener('click', function() {
+    sendColors();
+    alert('Cores salvas.');
+  });
+
+  // ao carregar, tentar restaurar cores salvas
+  try {
+    const raw = localStorage.getItem('lt_colors');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (corPrincipal && saved.cor_principal) corPrincipal.value = saved.cor_principal;
+      if (texto1 && saved.texto1) texto1.value = saved.texto1;
+      if (corSecundaria && saved.cor_secundaria) corSecundaria.value = saved.cor_secundaria;
+      if (texto2 && saved.texto2) texto2.value = saved.texto2;
+      applyPreview(saved);
+    }
+  } catch (e) {}
+
+} catch (err) {
+  // silencioso se elementos não existirem nessa página
+}
