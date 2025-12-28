@@ -1,0 +1,254 @@
+  #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:40%;
+  }
+
+  body.semanadeoracao #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:48%;
+  }
+
+  body.padrao #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:50%;
+  }
+
+  body.padrao #lowerthird-nome{
+    position:absolute; 
+    left:310px; 
+    bottom:150px; 
+    color:#ffffff; 
+    font-size:70px; 
+    font-family:'TemporaBoldItalic', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.padrao #lowerthird-info{
+    position:absolute; 
+    left:310px; 
+    bottom:90px; 
+    color:#ffffff; 
+    font-size: 40px; 
+    font-family:'TemporaRegular', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+
+  body.novosentido #lowerthird-nome{
+    position:absolute; 
+    left:290px; 
+    bottom:140px; 
+    color:#fff; 
+    font-size:50px; 
+    font-family:'Montserrat', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.novosentido #lowerthird-info{
+    position:absolute; 
+    left:290px; 
+    bottom:74px; 
+    color:#000000; 
+    font-size: 40px; 
+    font-family:'Montserrat', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+    body.semanadeoracao #lowerthird-nome{
+    position:absolute; 
+    left:115px; 
+    bottom:130px; 
+    color:#fff; 
+    font-size:45px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.semanadeoracao #lowerthird-info{
+    position:absolute; 
+    left:115px; 
+    bottom:77px; 
+    color:#563E23; 
+    font-size: 30px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight: medium;
+  }
+
+    body.teste #lowerthird-container {
+    opacity: 1;
+    transition: opacity 0.3s;
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  body.teste #lowerthird-nome{
+    position:absolute; 
+    left:115px; 
+    bottom:130px; 
+    color:#fff; 
+    font-size:45px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight:600;
+  }
+
+  body.teste #lowerthird-info{
+    position:absolute; 
+    left:115px; 
+    bottom:77px; 
+    color:#ffffff; 
+    font-size: 30px; 
+    font-family:'Inter', Arial, sans-serif; 
+    font-weight: medium;
+  }
+  
+  /* Estilo para o Instagram */
+  .revela-barra {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+  }
+
+  .revela-barra.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .barra-inferior {
+    display: block;
+    height: 100%;
+  }
+
+  .animar-mostrar {
+    animation: revelar-barra 1s ease-out forwards;
+    display: flex !important;
+  }
+  .animar-esconder {
+    animation: esconder-barra 1s ease-out forwards;
+    display: flex !important;
+  }
+
+  @keyframes revelar-barra {
+    from { width: 0; }
+    to { width: 600px; }
+  }
+  @keyframes esconder-barra {
+    from { width: 600px; }
+    to { width: 0; }
+  }
+
+  /* Estilo para o QR code */
+  .qrcode-style {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    position: absolute;
+    left: 32px;
+    bottom: 5px;
+  }
+
+  #qr-container {
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+    background: url('./Imagens/qrcodestyle.png') center center no-repeat;
+    background-size: cover; /* ou 'contain' se preferir */
+    width: 430px;   /* igual à largura do QR */
+    height: 160px;  /* igual à altura do QR */
+    position: absolute;
+    bottom: 70px;
+    left: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #qr-container.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #qr-desc {
+    color: #fff;           
+    font-size: 1.4em;      
+    font-weight: bold;     
+    text-align: center;    
+    margin-top: 8px;       
+    font-family: 'Montserrat', Arial, sans-serif; /* Fonte personalizada */
+    left: 200px;
+  }
+
+  body.padrao, body.padrao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  body.novosentido, body.novosentido * {
+    font-family: 'Beiruti', Arial, sans-serif;
+  }
+
+  body.semanadeoracao, body.semanadeoracao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  /* Estilos específicos para o tema 'teste' */
+  body.teste, body.teste * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+
+
+  /* Garante que elementos de overlay fiquem acima do vídeo */
+  #lowerthird-container, #lowerthird-text, #qr-container, .revela-barra {
+    z-index: 10;
+  }
+
+  /* Força o texto do lowerthird ficar em cima do vídeo */
+  #lowerthird-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  #lowerthird-text #lowerthird-nome,
+  #lowerthird-text #lowerthird-info {
+    z-index: 21;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  @font-face {
+  font-family: 'TemporaBoldItalic';
+  src: url('./fontes/TemporaLGCUni-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;}
+
+  @font-face {
+    font-family: 'TemporaRegular';
+    src: url('./fontes/TemporaLGCUni-Regular.ttf') format('truetype');
+  }

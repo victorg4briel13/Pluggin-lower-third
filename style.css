@@ -147,25 +147,42 @@ input:checked + .slider:before {
 }
 
 /* Layout das linhas de cor: label ao lado do color picker */
+/* Alinha o input de cor à direita */
 .color-row {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 8px;
+  justify-content: space-between;
 }
+
+/* Garante que o label ocupe o espaço à esquerda */
 .color-row label {
   width: 140px;
   margin: 0;
   font-size: 0.95em;
+  flex-shrink: 0;
 }
+
 .painel-body input[type="color"] {
   width: 44px;
   height: 30px;
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: 15px; /* formato pílula */
+  margin-bottom: 0px;
   background: transparent;
 }
+.painel-body input[type="color"]::-webkit-color-swatch {
+  border-radius: 15px;
+  border: none;
+}
+.painel-body input[type="color"]::-moz-color-swatch {
+  border-radius: 15px;
+  border: none;
+
+}
+
 
 .painel-body input {
   padding: 8px;
