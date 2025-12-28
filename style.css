@@ -27,6 +27,13 @@ body > .painel2 {
   margin: 0 auto 15px auto;
 }
 
+h5 {
+  margin: 0;
+  font-size: 0.9em;
+  color: #888;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .cabecalho {
   padding: 0px;
   display: flex;
@@ -202,9 +209,8 @@ input:checked + .slider:before {
 /* Container dos Botões */
 .painel-botoes {
   display: flex; /* Alinha os botões lado a lado */
-  justify-content: space-between; /* Espaça os botões uniformemente */
   gap: 5px; /* Espaço entre os botões */
-  padding: 0 0px; 
+  padding: 0;
 }
 
 /* Estilo do Botão Individual */
@@ -219,7 +225,7 @@ input:checked + .slider:before {
   font-size: 0.9em;
   color: #fff;
   
-  background-color: #3C404D; /* Cor azul escuro semelhante à imagem */
+  background-color: #3C404D;
   border: none;
   border-radius: 5px; 
   cursor: pointer;
@@ -236,9 +242,31 @@ input:checked + .slider:before {
 
 /* Efeito Hover/Foco (para interação) */
 .botao-salvo:hover,
-.botao-salvo:focus {
+.botao-salvo:focus,
+.botao:hover,
+.botao:focus {
   background-color: #3f5581; /* Um azul um pouco mais claro no hover */
   outline: none;
+}
+
+.lista-botoes {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px; /* Espaço entre os botões */
+  padding: 0;
+}
+
+.botao {
+  color: #fff;
+  background-color: #3C404D;
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 8px;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 textarea {
