@@ -251,3 +251,93 @@ try {
 } catch (err) {
   // silencioso se elementos não existirem nessa página
 }
+
+// --- Carregar versão local do version.json ---
+(function() {
+  const displayEl = document.getElementById('versao-display');
+  if (displayEl) {
+    fetch('version.json', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.version) {
+          displayEl.textContent = 'v' + data.version;
+        }
+      })
+      .catch(e => {
+        console.error('Erro ao carregar version.json:', e);
+        displayEl.textContent = 'Erro ao carregar';
+      });
+  }
+})();
+
+// --- Verificação de versão via GitHub ---
+(function() {
+  const btnVerificar = document.getElementById('botao-verificar');
+  const btnAtualizar = document.getElementById('botao-atualizar');
+  const repoRaw = 'https://raw.githubusercontent.com/victorg4briel13/Pluggin-lower-third/main/version.json';
+  const repoUrl = 'https://github.com/victorg4briel13/Pluggin-lower-third';
+
+  function normalize(v) {
+    return (v || '').toString().trim().replace(/^v/i, '');
+  }
+
+  function compareSemver(a, b) {
+    const pa = normalize(a).split('.').map(n => parseInt(n || '0', 10));
+    const pb = normalize(b).split('.').map(n => parseInt(n || '0', 10));
+    for (let i = 0; i < 3; i++) {
+      const na = pa[i] || 0;
+      const nb = pb[i] || 0;
+      if (na > nb) return 1;
+      if (na < nb) return -1;
+    }
+    return 0;
+  }
+
+  async function fetchJson(url) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  }
+
+  async function verify() {
+    if (!btnVerificar) return;
+    try {
+      btnVerificar.disabled = true;
+      btnVerificar.textContent = 'Verificando...';
+
+      const local = await fetchJson('version.json');
+      const remote = await fetchJson(repoRaw);
+
+      const localV = normalize(local && local.version ? local.version : '0.0.0');
+      const remoteV = normalize(remote && remote.version ? remote.version : '0.0.0');
+      const cmp = compareSemver(remoteV, localV);
+
+      if (cmp > 0) {
+        alert(`Há uma atualização disponível: local ${localV} → remoto ${remoteV}`);
+        if (btnAtualizar) {
+          btnAtualizar.disabled = false;
+          btnAtualizar.dataset.remoteVersion = remoteV;
+        }
+      } else if (cmp === 0) {
+        alert(`Você já está na versão mais recente (${localV}).`);
+        if (btnAtualizar) btnAtualizar.disabled = true;
+      } else {
+        alert(`Versão local (${localV}) é mais recente que a remota (${remoteV}).`);
+        if (btnAtualizar) btnAtualizar.disabled = false;
+      }
+
+    } catch (e) {
+      console.error('Erro ao verificar versão', e);
+      alert('Erro ao verificar atualizações: ' + (e && e.message ? e.message : e));
+    } finally {
+      btnVerificar.disabled = false;
+      btnVerificar.textContent = 'Verificar atualizações';
+    }
+  }
+
+  if (btnVerificar) btnVerificar.addEventListener('click', verify);
+  if (btnAtualizar) btnAtualizar.addEventListener('click', function() {
+    window.open(repoUrl, '_blank');
+  });
+
+})();
