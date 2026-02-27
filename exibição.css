@@ -1,21 +1,4 @@
-  #lowerthird-container {
-    opacity:0; 
-    transition:opacity 0.6s; 
-    position:absolute; 
-    bottom:70px; 
-    left:100px; 
-    width:40%;
-  }
-
-  body.semanadeoracao #lowerthird-container {
-    opacity:0; 
-    transition:opacity 0.6s; 
-    position:absolute; 
-    bottom:70px; 
-    left:100px; 
-    width:48%;
-  }
-
+  /* Padrão */
   body.padrao #lowerthird-container {
     opacity:0; 
     transition:opacity 0.6s; 
@@ -45,6 +28,19 @@
     font-weight: medium;
   }
 
+  body.padrao, body.padrao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  /* Novo Sentido */
+  body.novosentido  #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:40%;
+  }
 
   body.novosentido #lowerthird-nome{
     position:absolute; 
@@ -66,7 +62,21 @@
     font-weight: medium;
   }
 
-    body.semanadeoracao #lowerthird-nome{
+  body.novosentido, body.novosentido * {
+    font-family: 'Beiruti', Arial, sans-serif;
+  }
+
+  /* Semana de oração */
+  body.semanadeoracao #lowerthird-container {
+    opacity:0; 
+    transition:opacity 0.6s; 
+    position:absolute; 
+    bottom:70px; 
+    left:100px; 
+    width:48%;
+  }
+
+  body.semanadeoracao #lowerthird-nome{
     position:absolute; 
     left:115px; 
     bottom:130px; 
@@ -86,7 +96,12 @@
     font-weight: medium;
   }
 
-    body.teste #lowerthird-container {
+  body.semanadeoracao, body.semanadeoracao * {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  /* Teste */
+  body.teste #lowerthird-container {
     opacity: 1;
     transition: opacity 0.3s;
     position: absolute;
@@ -115,112 +130,13 @@
     font-family:'Inter', Arial, sans-serif; 
     font-weight: medium;
   }
-  
-  /* Estilo para o Instagram */
-  .revela-barra {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.6s;
-    pointer-events: none;
-  }
 
-  .revela-barra.mostrar {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .barra-inferior {
-    display: block;
-    height: 100%;
-  }
-
-  .animar-mostrar {
-    animation: revelar-barra 1s ease-out forwards;
-    display: flex !important;
-  }
-  .animar-esconder {
-    animation: esconder-barra 1s ease-out forwards;
-    display: flex !important;
-  }
-
-  @keyframes revelar-barra {
-    from { width: 0; }
-    to { width: 600px; }
-  }
-  @keyframes esconder-barra {
-    from { width: 600px; }
-    to { width: 0; }
-  }
-
-  /* Estilo para o QR code */
-  .qrcode-style {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    position: absolute;
-    left: 32px;
-    bottom: 5px;
-  }
-
-  #qr-container {
-    opacity: 0;
-    transition: opacity 0.6s;
-    pointer-events: none;
-    background: url('./Imagens/qrcodestyle.png') center center no-repeat;
-    background-size: cover; /* ou 'contain' se preferir */
-    width: 430px;   /* igual à largura do QR */
-    height: 160px;  /* igual à altura do QR */
-    position: absolute;
-    bottom: 70px;
-    left: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #qr-container.mostrar {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #qr-desc {
-    color: #fff;           
-    font-size: 1.4em;      
-    font-weight: bold;     
-    text-align: center;    
-    margin-top: 8px;       
-    font-family: 'Montserrat', Arial, sans-serif; /* Fonte personalizada */
-    left: 200px;
-  }
-
-  body.padrao, body.padrao * {
-    font-family: 'Montserrat', Arial, sans-serif;
-  }
-
-  body.novosentido, body.novosentido * {
-    font-family: 'Beiruti', Arial, sans-serif;
-  }
-
-  body.semanadeoracao, body.semanadeoracao * {
-    font-family: 'Montserrat', Arial, sans-serif;
-  }
-
-  /* Estilos específicos para o tema 'teste' */
   body.teste, body.teste * {
     font-family: 'Montserrat', Arial, sans-serif;
   }
 
-
-
   /* Garante que elementos de overlay fiquem acima do vídeo */
-  #lowerthird-container, #lowerthird-text, #qr-container, .revela-barra {
+  #lowerthird-container, #lowerthird-text, .revela-barra {
     z-index: 10;
   }
 

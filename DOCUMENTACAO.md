@@ -59,13 +59,8 @@ Personalização rápida
 
 Notas do desenvolvedor
 ----------------------
-- Inputs de cor estão estilizados como pílula em `style.css` (propriedades `border-radius` e `::-webkit-color-swatch`, `::-moz-color-swatch`).
 - O projeto assume suporte moderno do navegador para `BroadcastChannel`, `querySelector`, `localStorage` e APIs de mídia.
 
-Próximos passos sugeridos
-------------------------
-- Adicionar pré-visualização em `configuração.html` que mostre as cores em um cartão exemplo (já existe alguma lógica JS que aplica preview se os elementos estiverem presentes).
-- Documentar passos para integrar `exibição.html` como Browser Source no OBS (ex.: URL local ou arquivo servido).
 
 ---
 Gerado automaticamente: arquivo de referência do projeto.

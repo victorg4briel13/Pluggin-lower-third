@@ -1,50 +1,6 @@
  // Cria o canal de broadcast
   const canal = new BroadcastChannel('painel_exibicao');
 
-  /*
-  // Switch Instagram (comentado)
-  const instaSwitch = document.getElementById('switch-insta');
-  instaSwitch.addEventListener('change', function() {
-    if (instaSwitch.checked) {
-      canal.postMessage({ acao: 'mostrarBarra' });
-      setTimeout(() => {
-         instaSwitch.checked = false;
-         canal.postMessage({ acao: 'esconderBarra' });
-       }, 15000);
-    } else {
-      canal.postMessage({ acao: 'esconderBarra' });
-    }
-  });
-  */
-  /*
-  // QR Code - Enviar imagem e descrição (comentado)
-  const qrInput = document.getElementById('qrcode-img');
-
-  qrInput.addEventListener('change', function() {
-    const file = qrInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        canal.postMessage({
-          acao: 'atualizarQR',
-          imagem: e.target.result
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  // Switch do QR (comentado)
-  const qrSwitch = document.getElementById('painel-switch4');
-  qrSwitch.addEventListener('change', function() {
-    if (qrSwitch.checked) {
-      canal.postMessage({ acao: 'mostrarQR' });
-    } else {
-      canal.postMessage({ acao: 'esconderQR' });
-    }
-  });
-  */
-
   const sentidoSwitch = document.getElementById('painel-switchlowerthird');
   const nome = document.getElementById('nome');
   const info = document.getElementById('info');
@@ -272,14 +228,8 @@ try {
 
 // --- Verificação de versão via GitHub ---
 (function() {
-  const btnVerificar = document.getElementById('botao-verificar');
   const btnAtualizar = document.getElementById('botao-atualizar');
-  const repoRaw = 'https://raw.githubusercontent.com/victorg4briel13/Pluggin-lower-third/main/version.json';
   const repoUrl = 'https://github.com/victorg4briel13/Pluggin-lower-third';
-
-  function normalize(v) {
-    return (v || '').toString().trim().replace(/^v/i, '');
-  }
 
   function compareSemver(a, b) {
     const pa = normalize(a).split('.').map(n => parseInt(n || '0', 10));
@@ -293,49 +243,6 @@ try {
     return 0;
   }
 
-  async function fetchJson(url) {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
-  }
-
-  async function verify() {
-    if (!btnVerificar) return;
-    try {
-      btnVerificar.disabled = true;
-      btnVerificar.textContent = 'Verificando...';
-
-      const local = await fetchJson('version.json');
-      const remote = await fetchJson(repoRaw);
-
-      const localV = normalize(local && local.version ? local.version : '0.0.0');
-      const remoteV = normalize(remote && remote.version ? remote.version : '0.0.0');
-      const cmp = compareSemver(remoteV, localV);
-
-      if (cmp > 0) {
-        alert(`Há uma atualização disponível: local ${localV} → remoto ${remoteV}`);
-        if (btnAtualizar) {
-          btnAtualizar.disabled = false;
-          btnAtualizar.dataset.remoteVersion = remoteV;
-        }
-      } else if (cmp === 0) {
-        alert(`Você já está na versão mais recente (${localV}).`);
-        if (btnAtualizar) btnAtualizar.disabled = true;
-      } else {
-        alert(`Versão local (${localV}) é mais recente que a remota (${remoteV}).`);
-        if (btnAtualizar) btnAtualizar.disabled = false;
-      }
-
-    } catch (e) {
-      console.error('Erro ao verificar versão', e);
-      alert('Erro ao verificar atualizações: ' + (e && e.message ? e.message : e));
-    } finally {
-      btnVerificar.disabled = false;
-      btnVerificar.textContent = 'Verificar atualizações';
-    }
-  }
-
-  if (btnVerificar) btnVerificar.addEventListener('click', verify);
   if (btnAtualizar) btnAtualizar.addEventListener('click', function() {
     window.open(repoUrl, '_blank');
   });

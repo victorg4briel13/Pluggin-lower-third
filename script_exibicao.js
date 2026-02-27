@@ -41,10 +41,7 @@ function testeAcionado(ligado) {
   }
 }
 
-// QR code dinâmico
-const qrContainer = document.getElementById('qr-container');
-const qrImg = document.getElementById('qr-img');
-const qrDesc = document.getElementById('qr-desc');
+// Variaveis
 const lowerthird = document.getElementById('lowerthird-container');
 const lowerthirdImg = lowerthird.querySelector('img');
 const lowerthirdNome = document.getElementById('lowerthird-nome');
@@ -56,23 +53,6 @@ canal.onmessage = function(event) {
   }
   if (event.data.acao === 'esconderBarra') {
     esconderBarra();
-  }
-  
-  if (event.data.acao === 'atualizarQR') {
-    if (event.data.imagem) {
-      qrImg.src = event.data.imagem;
-      qrImg.style.display = 'block';
-    }
-    if (event.data.descricao !== undefined) {
-      qrDesc.textContent = event.data.descricao;
-    }
-  }
-
-  if (event.data.acao === 'mostrarQR') {
-    qrContainer.classList.add('mostrar');
-  }
-  if (event.data.acao === 'esconderQR') {
-    qrContainer.classList.remove('mostrar');
   }
 
   if (event.data.acao === 'mostrarLowerthird') {
@@ -114,11 +94,11 @@ canal.onmessage = function(event) {
       if (lowerthirdImg) lowerthirdImg.style.display = 'block';
       // Troca a imagem do lower third conforme o tema
       if (event.data.tema === 'padrao') {
-        lowerthirdImg.src = './Imagens/lowerthird0.png';
+        lowerthirdImg.src = './Imagens/gcPadrao.png';
       } else if (event.data.tema === 'novosentido') {
-        lowerthirdImg.src = './Imagens/lowerthird1.png';
+        lowerthirdImg.src = './Imagens/gcNovoSentido.png';
       } else if (event.data.tema === 'semanadeoracao') {
-        lowerthirdImg.src = './Imagens/lowerthird2.png';
+        lowerthirdImg.src = './Imagens/gcSemanaDeOracao.png';
       }
     }
   }
