@@ -58,10 +58,12 @@
     <div class="painel-body">
       <input type="text" id="busca-db" placeholder="🔍 Pesquisar nome ou info...">
       
-      <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-        <input type="text" id="novo-nome-db" placeholder="Nome" style="margin:0; flex:1;">
-        <input type="text" id="novo-info-db" placeholder="Info" style="margin:0; flex:1;">
-        <button id="btn-salvar-db" class="botao" style="width: 40px; padding: 0;">+</button>
+      <div style="margin-bottom: 10px;">
+        <input type="text" id="novo-nome-db" placeholder="Nome" style="width: 100%; box-sizing: border-box; margin-bottom: 5px;">
+        <div style="display: flex; gap: 5px;">
+          <input type="text" id="novo-info-db" placeholder="Info" style="margin:0; flex:1;">
+          <button id="btn-salvar-db" class="botao" style="width: 40px; padding: 0;">+</button>
+        </div>
       </div>
       
       <div id="lista-db" class="lista-resultados">

@@ -277,82 +277,103 @@ function initBancoDeDados() {
   const inputNome = document.getElementById('nome');
   const inputInfo = document.getElementById('info');
 
-// Função para renderizar a lista na tela com base na pesquisa
-function renderizarListaDb(filtro = '') {
-  listaDb.innerHTML = '';
-  
-  // Filtra ignorando maiúsculas e minúsculas
-  const filtrados = bancoDados.filter(item => 
-    item.nome.toLowerCase().includes(filtro.toLowerCase()) || 
-    item.info.toLowerCase().includes(filtro.toLowerCase())
-  );
-
-  if (filtrados.length === 0) {
-    listaDb.innerHTML = '<div style="padding: 10px; text-align: center; color: #888; font-size: 0.9em;">Nenhum resultado encontrado.</div>';
-    return;
-  }
-
-  // Cria o HTML para cada item encontrado
-  filtrados.forEach((item, index) => {
-    // Descobre o índice real no array principal para exclusão funcionar direito
-    const indexReal = bancoDados.indexOf(item); 
-    
-    const div = document.createElement('div');
-    div.className = 'item-db';
-    div.innerHTML = `
-      <div class="item-db-text" onclick="carregarParaTransmissao('${item.nome.replace(/'/g, "\\'")}', '${item.info.replace(/'/g, "\\'")}')">
-        <div class="item-db-nome">${item.nome}</div>
-        <div class="item-db-info">${item.info}</div>
-      </div>
-      <button class="btn-excluir-db" onclick="excluirDoDb(${indexReal})" title="Excluir">X</button>
-    `;
-    listaDb.appendChild(div);
-  });
-}
-
-// Função que joga o nome clicado lá para os inputs de transmissão
-window.carregarParaTransmissao = function(nomeSelecionado, infoSelecionado) {
-  const inputNome = document.getElementById('nome');
-  const inputInfo = document.getElementById('info');
-  
-  inputNome.value = nomeSelecionado;
-  inputInfo.value = infoSelecionado;
-  
-  // Se houver um slot ativo (1 a 8), já atualiza a variável dele
-  if (typeof updateActiveSlotFromFields === 'function') {
-    updateActiveSlotFromFields();
-  }
-};
-
-// Adiciona nova pessoa ao clicar no botão "+"
-btnSalvarDb.addEventListener('click', () => {
-  const n = novoNomeDb.value.trim();
-  const i = novoInfoDb.value.trim();
-  
-  if (n || i) { // Só salva se tiver algo escrito
-    bancoDados.push({ nome: n, info: i });
-    localStorage.setItem('gc_lista_pessoas', JSON.stringify(bancoDados));
-    
-    novoNomeDb.value = '';
-    novoInfoDb.value = '';
-    renderizarListaDb(buscaDb.value); // Atualiza a lista mantendo o filtro atual
-  }
-});
-
-// Remove uma pessoa
-window.excluirDoDb = function(index) {
-  if(confirm('Tem certeza que deseja excluir esta pessoa da lista?')) {
-    bancoDados.splice(index, 1);
+  // Função auxiliar para salvar e redesenhar
+  function salvarEAtualizar() {
     localStorage.setItem('gc_lista_pessoas', JSON.stringify(bancoDados));
     renderizarListaDb(buscaDb.value);
   }
-};
 
-// Evento que atualiza a lista enquanto você digita na barra de busca
-buscaDb.addEventListener('input', (e) => {
-  renderizarListaDb(e.target.value);
-});
+  // Função para renderizar a lista na tela com base na pesquisa
+  function renderizarListaDb(filtro = '') {
+    listaDb.innerHTML = '';
+    
+    // Filtra ignorando maiúsculas e minúsculas
+    const termo = filtro.toLowerCase();
+    const filtrados = bancoDados.filter(item => 
+      (item.nome || '').toLowerCase().includes(termo) || 
+      (item.info || '').toLowerCase().includes(termo)
+    );
 
-// Inicializa a lista ao abrir a página
-renderizarListaDb();
+    if (filtrados.length === 0) {
+      listaDb.innerHTML = '<div style="padding: 10px; text-align: center; color: #888; font-size: 0.9em;">Nenhum resultado encontrado.</div>';
+      return;
+    }
+
+    // Cria o HTML para cada item encontrado usando DOM API (mais seguro que innerHTML)
+    filtrados.forEach((item) => {
+      const div = document.createElement('div');
+      div.className = 'item-db';
+
+      // Container de texto (clicável para carregar)
+      const divText = document.createElement('div');
+      divText.className = 'item-db-text';
+      
+      const divNome = document.createElement('div');
+      divNome.className = 'item-db-nome';
+      divNome.textContent = item.nome;
+
+      const divInfo = document.createElement('div');
+      divInfo.className = 'item-db-info';
+      divInfo.textContent = item.info;
+
+      divText.appendChild(divNome);
+      divText.appendChild(divInfo);
+
+      // Ação de carregar
+      divText.addEventListener('click', () => {
+        inputNome.value = item.nome;
+        inputInfo.value = item.info;
+        // Dispara evento 'input' para que o sistema de slots detecte a mudança e salve automaticamente se houver slot ativo
+        inputNome.dispatchEvent(new Event('input'));
+        inputInfo.dispatchEvent(new Event('input'));
+      });
+
+      // Botão de excluir
+      const btnDel = document.createElement('button');
+      btnDel.className = 'btn-excluir-db';
+      btnDel.textContent = 'X';
+      btnDel.title = 'Excluir';
+      
+      // Ação de excluir
+      btnDel.addEventListener('click', (e) => {
+        e.stopPropagation(); // Evita que o clique carregue os dados ao tentar excluir
+        if (confirm(`Deseja remover "${item.nome}" da lista?`)) {
+          const indexReal = bancoDados.indexOf(item);
+          if (indexReal > -1) {
+            bancoDados.splice(indexReal, 1);
+            salvarEAtualizar();
+          }
+        }
+      });
+
+      div.appendChild(divText);
+      div.appendChild(btnDel);
+      listaDb.appendChild(div);
+    });
+  }
+
+  // Adiciona nova pessoa ao clicar no botão "+"
+  if (btnSalvarDb) {
+    btnSalvarDb.addEventListener('click', () => {
+      const n = novoNomeDb.value.trim();
+      const i = novoInfoDb.value.trim();
+      
+      if (n || i) { // Só salva se tiver algo escrito
+        bancoDados.push({ nome: n, info: i });
+        novoNomeDb.value = '';
+        novoInfoDb.value = '';
+        salvarEAtualizar();
+      }
+    });
+  }
+
+  // Evento que atualiza a lista enquanto você digita na barra de busca
+  if (buscaDb) {
+    buscaDb.addEventListener('input', (e) => {
+      renderizarListaDb(e.target.value);
+    });
+  }
+
+  // Inicializa a lista ao abrir a página
+  renderizarListaDb();
 }
