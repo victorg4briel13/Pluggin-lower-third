@@ -15,29 +15,24 @@ function initTesteGcVideo() {
 // Inicializa quando o DOM estiver pronto
 initTesteGcVideo();
 
-function mostrarBarra() {
-  const barra = document.getElementById('revelaBarra');
-  barra.classList.add('mostrar');
-}
-
-function esconderBarra() {
-  const barra = document.getElementById('revelaBarra');
-  barra.classList.remove('mostrar');
-}
-
-
 function testeAcionado(ligado) {
   const videoContainer = document.getElementById('video-testegc-container');
+  if (!testeGcVideo || !videoContainer) return;
+
   if (ligado) {
-    if (testeGcVideo && videoContainer) {
-      videoContainer.style.opacity = '1';
-      try { testeGcVideo.currentTime = 0; testeGcVideo.play(); } catch (e) { console.warn('Erro ao reproduzir teste-gc:', e); }
+    videoContainer.style.opacity = '1';
+    try { 
+      testeGcVideo.currentTime = 0; 
+      testeGcVideo.play(); 
+    } catch (e) { 
+      console.warn('Erro ao reproduzir teste-gc:', e); 
     }
   } else {
-    if (testeGcVideo && videoContainer) {
-      try { testeGcVideo.pause(); testeGcVideo.currentTime = 0; } catch (e) {}
-      videoContainer.style.opacity = '0';
-    }
+    try { 
+      testeGcVideo.pause(); 
+      testeGcVideo.currentTime = 0; 
+    } catch (e) {}
+    videoContainer.style.opacity = '0';
   }
 }
 
@@ -47,59 +42,60 @@ const lowerthirdImg = lowerthird.querySelector('img');
 const lowerthirdNome = document.getElementById('lowerthird-nome');
 const lowerthirdInfo = document.getElementById('lowerthird-info');
 
-canal.onmessage = function(event) {
-  if (event.data.acao === 'mostrarBarra') {
-    mostrarBarra();
-  }
-  if (event.data.acao === 'esconderBarra') {
-    esconderBarra();
-  }
-
-  if (event.data.acao === 'mostrarLowerthird') {
+const actions = {
+  mostrarBarra: () => {
+    const barra = document.getElementById('revelaBarra');
+    if(barra) barra.classList.add('mostrar');
+  },
+  esconderBarra: () => {
+    const barra = document.getElementById('revelaBarra');
+    if(barra) barra.classList.remove('mostrar');
+  },
+  mostrarLowerthird: (data) => {
     lowerthird.style.opacity = 1;
-    lowerthirdNome.textContent = event.data.nome || '';
-    lowerthirdInfo.textContent = event.data.info || '';
-  }
-  if (event.data.acao === 'esconderLowerthird') {
+    lowerthirdNome.textContent = data.nome || '';
+    lowerthirdInfo.textContent = data.info || '';
+  },
+  esconderLowerthird: () => {
     lowerthird.style.opacity = 0;
     lowerthirdNome.textContent = '';
     lowerthirdInfo.textContent = '';
-  }
-
-  // Ação de teste: passa o estado 'ligado' para a função de manipulação
-  if (event.data.acao === 'test' || event.data.acao === 'testSwitch') {
+  },
+  test: (data) => {
     try {
-      testeAcionado(Boolean(event.data.ligado));
+      testeAcionado(Boolean(data.ligado));
     } catch (err) {
       console.error('Erro ao executar testeAcionado:', err);
     }
-  }
-
-  if (event.data.acao === 'alterarTema') {
-    document.body.className = event.data.tema;
-    // Se o tema for 'teste', prepara o vídeo mas NÃO inicia — o switch controla a reprodução
+  },
+  testSwitch: (data) => actions.test(data), // Alias
+  alterarTema: (data) => {
+    document.body.className = data.tema;
     const videoContainer = document.getElementById('video-testegc-container');
-    if (event.data.tema === 'teste') {
+    
+    // Se o tema for 'teste', prepara o vídeo mas NÃO inicia — o switch controla a reprodução
+    if (data.tema === 'teste') {
       if (lowerthirdImg) lowerthirdImg.style.display = 'none';
-      if (videoContainer) {
-        try { testeGcVideo.pause(); testeGcVideo.currentTime = 0; } catch (e) {}
-        videoContainer.style.opacity = '0';
-      }
+      testeAcionado(false); // Garante que comece desligado
     } else {
       // caso contrário, garante que o vídeo pare/está escondido e restaura a imagem
-      if (videoContainer) {
-        try { testeGcVideo.pause(); testeGcVideo.currentTime = 0; } catch (e) {}
-        videoContainer.style.opacity = '0';
-      }
+      testeAcionado(false);
       if (lowerthirdImg) lowerthirdImg.style.display = 'block';
+      
       // Troca a imagem do lower third conforme o tema
-      if (event.data.tema === 'padrao') {
-        lowerthirdImg.src = './Imagens/gcPadrao.png';
-      } else if (event.data.tema === 'novosentido') {
-        lowerthirdImg.src = './Imagens/gcNovoSentido.png';
-      } else if (event.data.tema === 'semanadeoracao') {
-        lowerthirdImg.src = './Imagens/gcSemanaDeOracao.png';
-      }
+      const imagens = {
+        'padrao': './Imagens/gcPadrao.png',
+        'novosentido': './Imagens/gcNovoSentido.png',
+        'semanadeoracao': './Imagens/gcSemanaDeOracao.png'
+      };
+      if (imagens[data.tema]) lowerthirdImg.src = imagens[data.tema];
     }
+  }
+};
+
+canal.onmessage = function(event) {
+  const { acao } = event.data;
+  if (actions[acao]) {
+    actions[acao](event.data);
   }
 };

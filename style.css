@@ -202,7 +202,7 @@ input:checked + .slider:before {
 }
 
 .painel-body input:focus {
-  background: #606060;
+  background: #4d4e58;
   outline: none;
 }
 /* botões */
@@ -301,4 +301,63 @@ body::-webkit-scrollbar-thumb {
 
 body::-webkit-scrollbar-thumb:hover {
   background: #3c404d;
+}
+
+
+/* Estilos para o Banco de Dados Local */
+.lista-resultados {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #1e1f25;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.item-db {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #272A33;
+  transition: background 0.2s;
+}
+
+.item-db:last-child {
+  border-bottom: none;
+}
+
+.item-db:hover {
+  background: #272A33;
+}
+
+.item-db-text {
+  cursor: pointer;
+  flex: 1;
+}
+
+.item-db-nome { 
+  font-weight: bold; 
+  font-size: 0.95em; 
+  color: #fff;
+}
+
+.item-db-info { 
+  font-size: 0.8em; 
+  color: #a0a0a0; 
+}
+
+.btn-excluir-db {
+  background: #d93838;
+  border: none;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.btn-excluir-db:hover {
+  background: #ff4d4d;
 }

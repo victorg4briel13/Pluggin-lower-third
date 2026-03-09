@@ -4,19 +4,19 @@
   <link rel="stylesheet" href="exibicao.css">
   <script src="script_exibicao.js" defer></script>
 </head>
+
 <body>
+  <div id="lowerthird-container">
+    <img src="./Imagens/gcPadrao.png" class="lowerthird-img">
+  </div>
 
-<div id="lowerthird-container">
-  <img src="./Imagens/gcPadrao.png" style="width:100%; display:block;">
-</div>
+  <div id="lowerthird-text">
+    <span id="lowerthird-nome"></span>
+    <span id="lowerthird-info">Igreja do Uniaene</span>
+  </div>
 
-<div id="lowerthird-text">
-  <span id="lowerthird-nome"></span>
-  <span id="lowerthird-info"></span>
-</div>
-
-
-<!-- Vídeo de teste GC (ativado pelo switch de teste no painel) - agora em tela cheia -->
-<div id="video-testegc-container" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity:0; transition:opacity .3s; z-index:0; background:transparent;">
-  <video id="teste-gc-video" src="./animacoes/teste gc.webm" style="width:100%; height:100%; object-fit:cover; display:block;" preload="auto"></video>
-</div>
+  <!-- Vídeo de teste GC (ativado pelo switch de teste no painel) - agora em tela cheia -->
+  <div id="video-testegc-container">
+    <video id="teste-gc-video" src="./animacoes/teste gc.webm" preload="auto"></video>
+  </div>
+</body>

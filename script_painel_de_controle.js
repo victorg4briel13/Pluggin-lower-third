@@ -1,24 +1,45 @@
- // Cria o canal de broadcast
-  const canal = new BroadcastChannel('painel_exibicao');
+// Cria o canal de broadcast globalmente
+const canal = new BroadcastChannel('painel_exibicao');
 
+// Inicializa os módulos dependendo da página carregada
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('painel-switchlowerthird')) {
+    initPainelPrincipal();
+    initSlotsMemoria();
+    initBancoDeDados();
+  }
+  if (document.getElementById('cor_principal')) {
+    initConfiguracaoCores();
+  }
+  initVersao();
+});
+
+function initPainelPrincipal() {
   const sentidoSwitch = document.getElementById('painel-switchlowerthird');
   const nome = document.getElementById('nome');
   const info = document.getElementById('info');
+  const temaSelect = document.getElementById('tema-select');
+  const testSwitch = document.getElementById('painel-switchteste');
 
   // Desliga automático após 8 segundos quando ativado
   let sentidoAutoOffTimer = null;
+
   sentidoSwitch.addEventListener('change', function() {
-    // se ligado, mostra e programa desligamento
-    if (sentidoSwitch.checked) {
+    // Validação de tema
+    if (sentidoSwitch.checked && (!temaSelect.value || temaSelect.value === 'vazio')) {
+      alert('Por favor, selecione um tema.');
+      sentidoSwitch.checked = false;
+      return;
+    }
+
+    if (sentidoSwitch.checked && temaSelect.value !== 'vazio') {
       canal.postMessage({
         acao: 'mostrarLowerthird',
         nome: nome.value,
         info: info.value
       });
 
-      // também aciona o vídeo de teste via ação 'test' somente se o tema 'teste' estiver ativo
-      const temaAtivo = document.getElementById('tema-select');
-      if (temaAtivo && temaAtivo.value === 'teste') {
+      if (temaSelect.value === 'teste') {
         canal.postMessage({ acao: 'test', ligado: true });
       }
 
@@ -46,7 +67,7 @@
     }
   });
 
-  // Se quiser atualizar em tempo real ao digitar:
+  // Atualização em tempo real ao digitar
   nome.addEventListener('input', function() {
     if (sentidoSwitch.checked) {
       canal.postMessage({
@@ -67,20 +88,23 @@
     }
   });
 
-  const temaSelect = document.getElementById('tema-select');
   temaSelect.addEventListener('change', function() {
     canal.postMessage({ acao: 'alterarTema', tema: temaSelect.value });
   });
 
   // Switch de teste: envia ação 'test' com estado ligado (true/false)
-  const testSwitch = document.getElementById('painel-switchteste');
   if (testSwitch) {
     testSwitch.addEventListener('change', function() {
       canal.postMessage({ acao: 'test', ligado: testSwitch.checked });
     });
   }
+}
 
-  // --- Gerenciamento simples de "variáveis" por botão (1..8) ---
+function initSlotsMemoria() {
+  const nome = document.getElementById('nome');
+  const info = document.getElementById('info');
+  const botaoSlots = document.querySelectorAll('.botao-salvo');
+
   // Cada slot guarda { nome, info } em memória e também em localStorage (para persistir entre sessões).
   const slots = {};
   for (let i = 1; i <= 8; i++) {
@@ -89,7 +113,6 @@
   }
 
   let activeSlot = null;
-  const botaoSlots = document.querySelectorAll('.botao-salvo');
 
   // atualiza o title (tooltip) de todos os botões com o nome salvo (ou "Vazio")
   function updateButtonTitles() {
@@ -142,9 +165,9 @@
   if (persistedActive && slots[persistedActive]) {
     setActiveButton(persistedActive);
   }
+}
 
-// --- Seção: seleção de cores (apenas se a página de configuração existir) ---
-try {
+function initConfiguracaoCores() {
   const corPrincipal = document.getElementById('cor_principal');
   const texto1 = document.getElementById('texto1');
   const corSecundaria = document.getElementById('cor_secundaria');
@@ -203,13 +226,9 @@ try {
       applyPreview(saved);
     }
   } catch (e) {}
-
-} catch (err) {
-  // silencioso se elementos não existirem nessa página
 }
 
-// --- Carregar versão local do version.json ---
-(function() {
+function initVersao() {
   const displayEl = document.getElementById('versao-display');
   if (displayEl) {
     fetch('version.json', { cache: 'no-store' })
@@ -224,10 +243,8 @@ try {
         displayEl.textContent = 'Erro ao carregar';
       });
   }
-})();
 
-// --- Verificação de versão via GitHub ---
-(function() {
+  // Verificação de versão via GitHub
   const btnAtualizar = document.getElementById('botao-atualizar');
   const repoUrl = 'https://github.com/victorg4briel13/Pluggin-lower-third';
 
@@ -246,5 +263,96 @@ try {
   if (btnAtualizar) btnAtualizar.addEventListener('click', function() {
     window.open(repoUrl, '_blank');
   });
+}
 
-})();
+function initBancoDeDados() {
+  // Puxa os dados salvos ou cria uma lista vazia
+  let bancoDados = JSON.parse(localStorage.getItem('gc_lista_pessoas')) || [];
+
+  const listaDb = document.getElementById('lista-db');
+  const buscaDb = document.getElementById('busca-db');
+  const novoNomeDb = document.getElementById('novo-nome-db');
+  const novoInfoDb = document.getElementById('novo-info-db');
+  const btnSalvarDb = document.getElementById('btn-salvar-db');
+  const inputNome = document.getElementById('nome');
+  const inputInfo = document.getElementById('info');
+
+// Função para renderizar a lista na tela com base na pesquisa
+function renderizarListaDb(filtro = '') {
+  listaDb.innerHTML = '';
+  
+  // Filtra ignorando maiúsculas e minúsculas
+  const filtrados = bancoDados.filter(item => 
+    item.nome.toLowerCase().includes(filtro.toLowerCase()) || 
+    item.info.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if (filtrados.length === 0) {
+    listaDb.innerHTML = '<div style="padding: 10px; text-align: center; color: #888; font-size: 0.9em;">Nenhum resultado encontrado.</div>';
+    return;
+  }
+
+  // Cria o HTML para cada item encontrado
+  filtrados.forEach((item, index) => {
+    // Descobre o índice real no array principal para exclusão funcionar direito
+    const indexReal = bancoDados.indexOf(item); 
+    
+    const div = document.createElement('div');
+    div.className = 'item-db';
+    div.innerHTML = `
+      <div class="item-db-text" onclick="carregarParaTransmissao('${item.nome.replace(/'/g, "\\'")}', '${item.info.replace(/'/g, "\\'")}')">
+        <div class="item-db-nome">${item.nome}</div>
+        <div class="item-db-info">${item.info}</div>
+      </div>
+      <button class="btn-excluir-db" onclick="excluirDoDb(${indexReal})" title="Excluir">X</button>
+    `;
+    listaDb.appendChild(div);
+  });
+}
+
+// Função que joga o nome clicado lá para os inputs de transmissão
+window.carregarParaTransmissao = function(nomeSelecionado, infoSelecionado) {
+  const inputNome = document.getElementById('nome');
+  const inputInfo = document.getElementById('info');
+  
+  inputNome.value = nomeSelecionado;
+  inputInfo.value = infoSelecionado;
+  
+  // Se houver um slot ativo (1 a 8), já atualiza a variável dele
+  if (typeof updateActiveSlotFromFields === 'function') {
+    updateActiveSlotFromFields();
+  }
+};
+
+// Adiciona nova pessoa ao clicar no botão "+"
+btnSalvarDb.addEventListener('click', () => {
+  const n = novoNomeDb.value.trim();
+  const i = novoInfoDb.value.trim();
+  
+  if (n || i) { // Só salva se tiver algo escrito
+    bancoDados.push({ nome: n, info: i });
+    localStorage.setItem('gc_lista_pessoas', JSON.stringify(bancoDados));
+    
+    novoNomeDb.value = '';
+    novoInfoDb.value = '';
+    renderizarListaDb(buscaDb.value); // Atualiza a lista mantendo o filtro atual
+  }
+});
+
+// Remove uma pessoa
+window.excluirDoDb = function(index) {
+  if(confirm('Tem certeza que deseja excluir esta pessoa da lista?')) {
+    bancoDados.splice(index, 1);
+    localStorage.setItem('gc_lista_pessoas', JSON.stringify(bancoDados));
+    renderizarListaDb(buscaDb.value);
+  }
+};
+
+// Evento que atualiza a lista enquanto você digita na barra de busca
+buscaDb.addEventListener('input', (e) => {
+  renderizarListaDb(e.target.value);
+});
+
+// Inicializa a lista ao abrir a página
+renderizarListaDb();
+}
