@@ -48,6 +48,7 @@ h5 {
   padding: 10px;
   width: 300px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: box-shadow 1s ease-in-out;
 }
 
 .painel-tema {
@@ -285,7 +286,7 @@ textarea {
 /* Barra de rolagem personalizada */
 body {
   scrollbar-width: thin;
-  scrollbar-color: #235aff #1a1b22;
+  scrollbar-color: #3C404D #1a1b22;
 }
 
 body::-webkit-scrollbar {
@@ -294,7 +295,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: #235aff;
+  background: #3C404D;
   border-radius: 8px;
   border: 2px solid #1a1b22;
 }
@@ -348,16 +349,23 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .btn-excluir-db {
-  background: #d93838;
+  background: #3C404D;
   border: none;
   color: white;
   border-radius: 3px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px;
   font-weight: bold;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-excluir-db:hover {
   background: #ff4d4d;
+}
+
+.painel.glow-active {
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8) !important;
 }

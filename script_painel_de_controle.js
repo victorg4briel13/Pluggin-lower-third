@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initConfiguracaoCores();
   }
   initVersao();
+  initEasterEgg();
 });
 
 function initPainelPrincipal() {
@@ -276,6 +277,24 @@ function initBancoDeDados() {
   const btnSalvarDb = document.getElementById('btn-salvar-db');
   const inputNome = document.getElementById('nome');
   const inputInfo = document.getElementById('info');
+  const dbContainer = document.getElementById('db-container-oculto');
+
+  // Exibe as opções do banco de dados ao focar na busca
+  if (buscaDb && dbContainer) {
+    const hideDb = () => {
+      setTimeout(() => {
+        if (document.activeElement !== buscaDb && !dbContainer.contains(document.activeElement)) {
+          dbContainer.style.display = 'none';
+        }
+      }, 200);
+    };
+
+    buscaDb.addEventListener('focus', () => {
+      dbContainer.style.display = 'block';
+    });
+    buscaDb.addEventListener('blur', hideDb);
+    dbContainer.addEventListener('focusout', hideDb);
+  }
 
   // Função auxiliar para salvar e redesenhar
   function salvarEAtualizar() {
@@ -331,7 +350,7 @@ function initBancoDeDados() {
       // Botão de excluir
       const btnDel = document.createElement('button');
       btnDel.className = 'btn-excluir-db';
-      btnDel.textContent = 'X';
+      btnDel.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
       btnDel.title = 'Excluir';
       
       // Ação de excluir
@@ -376,4 +395,22 @@ function initBancoDeDados() {
 
   // Inicializa a lista ao abrir a página
   renderizarListaDb();
+}
+
+function initEasterEgg() {
+  const buscaDb = document.getElementById('busca-db');
+  if (!buscaDb) return;
+
+  let glowTimer = null;
+
+  buscaDb.addEventListener('input', function() {
+    if (this.value.trim().toLowerCase() === 'glow') {
+      const paineis = document.querySelectorAll('.painel');
+      paineis.forEach(p => p.classList.add('glow-active'));
+      if (glowTimer) clearTimeout(glowTimer);
+      glowTimer = setTimeout(() => {
+        paineis.forEach(p => p.classList.remove('glow-active'));
+      }, 1000);
+    }
+  });
 }
