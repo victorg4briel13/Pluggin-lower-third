@@ -229,43 +229,6 @@ function initConfiguracaoCores() {
   } catch (e) {}
 }
 
-function initVersao() {
-  const displayEl = document.getElementById('versao-display');
-  if (displayEl) {
-    fetch('version.json', { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.version) {
-          displayEl.textContent = 'v' + data.version;
-        }
-      })
-      .catch(e => {
-        console.error('Erro ao carregar version.json:', e);
-        displayEl.textContent = 'Erro ao carregar';
-      });
-  }
-
-  // Verificação de versão via GitHub
-  const btnAtualizar = document.getElementById('botao-atualizar');
-  const repoUrl = 'https://github.com/victorg4briel13/Pluggin-lower-third';
-
-  function compareSemver(a, b) {
-    const pa = normalize(a).split('.').map(n => parseInt(n || '0', 10));
-    const pb = normalize(b).split('.').map(n => parseInt(n || '0', 10));
-    for (let i = 0; i < 3; i++) {
-      const na = pa[i] || 0;
-      const nb = pb[i] || 0;
-      if (na > nb) return 1;
-      if (na < nb) return -1;
-    }
-    return 0;
-  }
-
-  if (btnAtualizar) btnAtualizar.addEventListener('click', function() {
-    window.open(repoUrl, '_blank');
-  });
-}
-
 function initBancoDeDados() {
   // Puxa os dados salvos ou cria uma lista vazia
   let bancoDados = JSON.parse(localStorage.getItem('gc_lista_pessoas')) || [];

@@ -41,6 +41,7 @@ const lowerthird = document.getElementById('lowerthird-container');
 const lowerthirdImg = lowerthird.querySelector('img');
 const lowerthirdNome = document.getElementById('lowerthird-nome');
 const lowerthirdInfo = document.getElementById('lowerthird-info');
+const lowerthirdText = document.getElementById('lowerthird-text');
 
 const actions = {
   mostrarBarra: () => {
@@ -53,11 +54,13 @@ const actions = {
   },
   mostrarLowerthird: (data) => {
     lowerthird.style.opacity = 1;
+    if (lowerthirdText) lowerthirdText.style.opacity = 1;
     lowerthirdNome.textContent = data.nome || '';
     lowerthirdInfo.textContent = data.info || '';
   },
   esconderLowerthird: () => {
     lowerthird.style.opacity = 0;
+    if (lowerthirdText) lowerthirdText.style.opacity = 0;
     lowerthirdNome.textContent = '';
     lowerthirdInfo.textContent = '';
   },

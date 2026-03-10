@@ -29,9 +29,9 @@ body > .painel2 {
 
 h5 {
   margin: 0;
-  font-size: 0.9em;
+  font-size: 1.5em;
   color: #888;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: monospace;
 }
 
 .cabecalho {
@@ -368,4 +368,9 @@ body::-webkit-scrollbar-thumb:hover {
 
 .painel.glow-active {
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8) !important;
+}
+
+.link-voltar {
+  text-decoration: none;
+  color: inherit;
 }
