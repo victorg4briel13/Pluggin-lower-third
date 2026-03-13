@@ -21,22 +21,26 @@
 }
 
 /* --- Tema: Padrão --- */
-body.padrao #lowerthird-container { width: 50%; }
-body.padrao, body.padrao * { font-family: 'Montserrat', Arial, sans-serif; }
+body.padrao #lowerthird-container { 
+  width: 40%; 
+  left: 90px;
+}
+
+body.padrao, body.padrao * { font-family: 'Open Sauce', Arial, sans-serif; }
 
 body.padrao #lowerthird-nome {
-  left: 310px;
-  bottom: 150px;
-  font-size: 70px;
-  font-family: 'TemporaBoldItalic', Arial, sans-serif;
+  left: 250px;
+  bottom: 123px;
+  font-size: 60px;
+  font-family: 'Open Sauce', Arial, sans-serif;
   font-weight: 600;
 }
 
 body.padrao #lowerthird-info {
-  left: 310px;
-  bottom: 90px;
+  left: 250px;
+  bottom: 74px;
   font-size: 40px;
-  font-family: 'TemporaRegular', Arial, sans-serif;
+  font-family: 'Open Sauce', Arial, sans-serif;
   font-weight: medium;
 }
 
@@ -59,6 +63,39 @@ body.novosentido #lowerthird-info {
   font-size: 40px;
   font-family: 'Montserrat', Arial, sans-serif;
   font-weight: medium;
+}
+
+/* --- Tema: Te vejo na sexta --- */
+body.tevejonasexta #lowerthird-container { width: 40%; }
+body.tevejonasexta, body.tevejonasexta * { font-family: 'Open Sauce', Arial, sans-serif; }
+
+body.tevejonasexta #lowerthird-nome {
+  left: 290px;
+  bottom: 123px;
+  font-size: 60px;
+  font-family: 'Open Sauce', Arial, sans-serif;
+  font-weight: 600;
+}
+
+body.tevejonasexta #lowerthird-info {
+  left: 290px;
+  bottom: 74px;
+  color: #4F85A3;
+  font-size: 40px;
+  font-family: 'Open Sauce', Arial, sans-serif;
+  font-weight: medium;
+}
+@font-face {
+  font-family: 'Open Sauce';
+  src: url('./fontes/OpenSauceSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sauce';
+  src: url('./fontes/OpenSauceSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 /* --- Tema: Semana de Oração --- */

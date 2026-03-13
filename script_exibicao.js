@@ -89,7 +89,10 @@ const actions = {
       const imagens = {
         'padrao': './Imagens/gcPadrao.png',
         'novosentido': './Imagens/gcNovoSentido.png',
-        'semanadeoracao': './Imagens/gcSemanaDeOracao.png'
+        'tevejonasexta': './Imagens/gcTevejonasexta.png',
+        'semanadeoracao': './Imagens/gcSemanaDeOracao.png',
+        'uniaene': './Imagens/gcUniaene.png'
+        // Adicione mais temas e imagens conforme necessário
       };
       if (imagens[data.tema]) lowerthirdImg.src = imagens[data.tema];
     }
